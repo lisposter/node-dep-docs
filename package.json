@@ -1,0 +1,29 @@
+{
+  "name": "dep-docs",
+  "version": "0.0.1",
+  "description": "a tool for collect all node modules's docs in your projcet",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lisposter/node-dep-docs.git"
+  },
+  "keywords": [
+    "dep",
+    "deps",
+    "docs",
+    "readme",
+    "modules"
+  ],
+  "author": "Leigh Zhu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lisposter/node-dep-docs/issues"
+  },
+  "homepage": "https://github.com/lisposter/node-dep-docs",
+  "dependencies": {
+    "resolve-dep": "^0.5.3"
+  }
+}
