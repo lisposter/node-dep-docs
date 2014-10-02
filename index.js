@@ -14,6 +14,6 @@ function depDocs(_path, options) {
     return resolveDep(_path + '/*', options).map(function(dep) {
         return path.resolve(dep, fs.readdirSync(dep).filter(function(file){
             return /^readme/.test(file.toLowerCase());
-        })[0] || '');
+        })[0] || 'NONE');
     });
 }

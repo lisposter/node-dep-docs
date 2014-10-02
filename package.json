@@ -1,8 +1,11 @@
 {
   "name": "dep-docs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "a tool for collect all node modules's docs in your projcet",
   "main": "index.js",
+  "bin": {
+    "docs": "bin/cli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +27,8 @@
   },
   "homepage": "https://github.com/lisposter/node-dep-docs",
   "dependencies": {
-    "resolve-dep": "^0.5.3"
+    "marked": "^0.3.2",
+    "resolve-dep": "^0.5.3",
+    "through2-map": "^1.4.0"
   }
 }
