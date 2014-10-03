@@ -17,30 +17,22 @@ mkdirp.sync(docDir);
 
 fs.writeFileSync(docDir + '/markdown.css', fs.readFileSync(path.resolve(__dirname, '../assets/markdown.css')));
 
-var docs = [];
-var nodocs = [];
-
-async.each(docList, function(doc, callback){
+async.each(docList[0], function(doc, callback){
     var _docPath = doc.split('/');
     var moduleName = _docPath[_docPath.length - 2];
 
-    if(_docPath.pop() !== 'NONE') {
-        docs.push(doc);
-        fs.createReadStream(doc).pipe(map({wantStrings: true}, function(str) {
-            var _prepend =  '<!DOCTYPE html>' +
-                            '<html>' +
-                            '<head>' +
-                            '<title>' + moduleName + '</title>' +
-                            '<link rel="stylesheet" href="markdown.css">' +
-                            '</head>' +
-                            '<body class="markdown-body">';
-            var _append =   '</body>' +
-                            '</html>';
-            return _prepend + marked(str) + _append;
-        })).pipe(fs.createWriteStream(docDir + '/' + moduleName + '.html'));
-    } else {
-        nodocs.push(doc);
-    }
+    fs.createReadStream(doc).pipe(map({wantStrings: true}, function(str) {
+        var _prepend =  '<!DOCTYPE html>' +
+                        '<html>' +
+                        '<head>' +
+                        '<title>' + moduleName + '</title>' +
+                        '<link rel="stylesheet" href="markdown.css">' +
+                        '</head>' +
+                        '<body class="markdown-body">';
+        var _append =   '</body>' +
+                        '</html>';
+        return _prepend + marked(str) + _append;
+    })).pipe(fs.createWriteStream(docDir + '/' + moduleName + '.html'));
     callback();
 }, function(err) {
     if(err) {
@@ -59,27 +51,20 @@ async.each(docList, function(doc, callback){
     var _append =   '</ul>' +
                     '</body>' +
                     '</html>';
-    var htmlStr = docs.concat(nodocs).reduce(function(memo, doc){
+    var htmlStr = docList[0].reduce(function(memo, doc){
         var _docPath = doc.split('/');
         var moduleName = _docPath[_docPath.length - 2];
-        var itm = '';
 
-        if(doc.indexOf('.doc') > 0) {
-            return memo;
-        }
-
-        if(doc.indexOf('/NONE') < 0) {
-            itm =   '<li><a href="' +
+        return  memo + '<li><a href="' +
                         docDir + '/' + moduleName + '.html' +
                         '">' +
                         moduleName +
                         '</a></li>';
-        } else {
-            itm =   '<li>' + moduleName + '</li>';
-        }
-
-        return  memo + itm;
-    }, _prepend) + _append;
+    }, _prepend) + docList[1].reduce(function(memo, doc){
+        var _docPath = doc.split('/');
+        var moduleName = _docPath[_docPath.length - 1];
+        return memo + '<li>' + moduleName + '</li>';
+    }, '') + _append;
 
     fs.writeFileSync(docDir + '/_toc.html', htmlStr);
 });

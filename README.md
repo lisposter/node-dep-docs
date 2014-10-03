@@ -12,6 +12,17 @@ var depDocs = requrie('dep-docs');
 var docs = depDocs('./');
 ```
 
+result's format:
+
+```js
+[
+    [readmePath1, readmePath2, ...],
+    [module1, module2, ...]
+]
+```
+first array is the readme path list,
+the second array is the module name list of those module didn't has a readme file.
+
 ## CLI
 
 ```sh

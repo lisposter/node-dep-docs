@@ -11,9 +11,20 @@ function depDocs(_path, options) {
         _path = path.resolve(_path, 'node_modules/');
     }
 
-    return resolveDep(_path + '/*', options).map(function(dep) {
-        return path.resolve(dep, fs.readdirSync(dep).filter(function(file){
+    var docs = [];
+    var nodocs = [];
+
+    resolveDep(_path + '/*', options).forEach(function(dep) {
+        var doc = fs.readdirSync(dep).filter(function(file){
             return /^readme/.test(file.toLowerCase());
-        })[0] || 'NONE');
+        })[0];
+
+        if(doc) {
+            docs.push(path.resolve(dep, doc));
+        } else {
+            nodocs.push(dep);
+        }
     });
+
+    return [docs, nodocs];
 }

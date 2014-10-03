@@ -1,6 +1,6 @@
 {
   "name": "dep-docs",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "a tool for collect all node modules's docs in your projcet",
   "main": "index.js",
   "bin": {
